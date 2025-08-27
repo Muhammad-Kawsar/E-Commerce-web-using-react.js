@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* index.css */
+
+/* Next Button (Right side) */
+/* Next Button (Right side) */
+.swiper-button-next,
+.swiper-rtl .swiper-button-prev {
+  right: 10% !important; /* ডান পাশ থেকে দূরত্ব */
+  left: auto !important;
+  background: #fca5a5 !important; /* light red */
+  border-radius: 100% !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/* Prev Button (Left side) */
+.swiper-button-prev,
+.swiper-rtl .swiper-button-next {
+  left: 10% !important; /* বাম পাশ থেকে দূরত্ব */
+  right: auto !important;
+  background: #fca5a5 !important; /* light red */
+  border-radius: 100% !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+/* Arrow styling */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  color: white !important;
+  font-size: 20px !important;
+}

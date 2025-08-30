@@ -1,19 +1,39 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-
+import React, { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useForm } from "react-hook-form"
+import axios from 'axios'
 export default function Login() {
+  const [loginInfo, setLoginInfo] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const navigation = useNavigate()
+   const {
+    register,
+    handleSubmit,
+    reset
+  } = useForm()
+  async function onSubmit (data)  {
+    setLoading(true);
+    const response = await axios.post ("https://api.escuelajs.co/api/v1/auth/login", data)
+    setLoginInfo(response.data)
+    setLoading(false);
+    reset()  
+    navigation ("/shop")
+}
+    console.log(loginInfo);
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
+              {...register("email")}
               type="email"
               placeholder="Enter your email"
               required
@@ -26,6 +46,7 @@ export default function Login() {
               Password
             </label>
             <input
+              {...register("password")}
               type="password"
               placeholder="Enter your password"
               required
@@ -37,7 +58,9 @@ export default function Login() {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
-            Login
+            {
+              loading ? "Loading..." : "Login"
+            }
           </button>
         </form>
 

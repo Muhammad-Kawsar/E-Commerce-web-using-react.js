@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function Navbar() {
-
+const { userToken, setUserToken, loggedUser } = useContext(AuthContext);
   return (
     <>
 <div className=" bg-green-300">
@@ -54,13 +56,15 @@ export default function Navbar() {
 <div className="dropdown dropdown-end z-10">
       <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
-          <img src="https://plus.unsplash.com/premium_photo-1689977968861-9c91dbb16049?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWFufGVufDB8fDB8fHww" />
+          <img src={loggedUser? loggedUser.avatar: "https://media.istockphoto.com/id/935941772/photo/diverse-people-holding-emoticon.jpg?s=1024x1024&w=is&k=20&c=chW6cByVoJVetLXfF-YpKT3cBbct0xL80MvM90l6psI="} />
         </div>
       </label>
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
         <li>
           <NavLink to={"/profile"} className="justify-between">
-            Profile
+           {
+            loggedUser ? loggedUser?.name : "Profile"
+           }
             <span className="badge">New</span>
           </NavLink>
         </li>

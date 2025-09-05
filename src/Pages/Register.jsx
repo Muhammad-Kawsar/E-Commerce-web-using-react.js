@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form"
 import axios from 'axios';
+import toast from 'react-hot-toast';
 export default function Register() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
+  const navigation = useNavigate()
     const {
     register,
     handleSubmit,
@@ -20,6 +22,8 @@ export default function Register() {
     setUser(response.data)
     setLoading(false);
     reset()
+    navigation ("/login")
+    toast.success("Registration Successful")
     } catch (error) {
       console.error( error);
     }
@@ -95,7 +99,7 @@ export default function Register() {
             type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium transition"
           >
-            Register
+            {loading ? <span className="loading loading-spinner loading-sm"></span> : 'Register'}
           </button>
 
           {/* Google Sign Up Button */}

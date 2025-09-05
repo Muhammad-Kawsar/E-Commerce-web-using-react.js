@@ -11,10 +11,11 @@ import Profile from "./Pages/Profile"
 import Checkout from "./Pages/Checkout"
 import NotFound from "./Pages/NotFound"
 import Navbar from "./Components/Navbar"
-
+import toast, { Toaster } from 'react-hot-toast';
 export default function App() {
   return (
 <>
+<Toaster />
     <Navbar/>
     <Routes>
       <Route path="/" element={<Home />}/>

@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import { AuthContext } from '../context/AuthContext'
 export default function Login() {
-  const [loginInfo, setLoginInfo] = useState(null)
+  // const [loginInfo, setLoginInfo] = useState(null)
   const [loading, setLoading] = useState(false)
   const navigation = useNavigate()
+  const {userToken, setUserToken}= useContext(AuthContext);
    const {
     register,
     handleSubmit,
@@ -14,12 +17,13 @@ export default function Login() {
   async function onSubmit (data)  {
     setLoading(true);
     const response = await axios.post ("https://api.escuelajs.co/api/v1/auth/login", data)
-    setLoginInfo(response.data)
+    setUserToken(response.data)
     setLoading(false);
     reset()  
     navigation ("/shop")
+    toast.success("Login Successful")
 }
-    console.log(loginInfo);
+    console.log(userToken);
 
   return (
     <>
@@ -59,7 +63,7 @@ export default function Login() {
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
             {
-              loading ? "Loading..." : "Login"
+              loading ? <span className="loading loading-spinner loading-sm"></span> : "Login"
             }
           </button>
         </form>

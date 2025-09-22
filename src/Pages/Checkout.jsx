@@ -1,27 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 export default function CheckoutTable() {
-  // Array of products (without id)
-  const products = [
-    {
-      title: "Wireless Headphones",
-      price: "$120",
-      image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=200",
-      category: "Electronics",
-    },
-    {
-      title: "Running Shoes",
-      price: "$90",
-      image: "https://images.unsplash.com/photo-1528701800489-20be9c63b1f0?w=200",
-      category: "Fashion",
-    },
-    {
-      title: "Smart Watch",
-      price: "$150",
-      image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=200",
-      category: "Accessories",
-    },
-  ];
+  const {cart} =useContext(CartContext)
+  
+  function calculateSubtotal (){
+    let subtotal = 0;
+    cart?.forEach(element => {
+      subtotal = subtotal + element?.price;
+    });
+    return subtotal.toFixed(2)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200 p-6 flex justify-center">
@@ -39,26 +28,26 @@ export default function CheckoutTable() {
             </tr>
           </thead>
           <tbody>
-            {products.map((item, index) => (
+            {cart.map((item, index) => (
               <tr key={index} className="border-b hover:bg-gray-100">
                 {/* Image */}
                 <td className="p-3">
                   <img
-                    src={item.image}
-                    alt={item.title}
+                    src={item?.images}
+                    alt={item?.title}
                     className="w-16 h-16 object-cover rounded-lg"
                   />
                 </td>
                 {/* Title */}
-                <td className="p-3 font-medium">{item.title}</td>
+                <td className="p-3 font-medium">{item?.title}</td>
                 {/* Category */}
                 <td className="p-3">
                   <span className="inline-block bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full">
-                    {item.category}
+                    {item?.category.name}
                   </span>
                 </td>
                 {/* Price */}
-                <td className="p-3 font-semibold text-green-600">{item.price}</td>
+                <td className="p-3 font-semibold text-green-600">{item?.price}</td>
                 {/* Checkout Button */}
                 <td className="p-3">
                   <button className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-1.5 rounded-lg shadow hover:scale-105 transition-transform">
@@ -69,6 +58,9 @@ export default function CheckoutTable() {
             ))}
           </tbody>
         </table>
+        <div className="text-right">
+          <h2 className="text-2xl font-bold">Subtotal: {calculateSubtotal()} Taka</h2>
+        </div>
       </div>
     </div>
   );

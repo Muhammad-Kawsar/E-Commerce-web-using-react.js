@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import Card from "../Components/Card";
 import axios from "axios";
 import Loading from "../Components/Loading";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [seacrchQuery, setSearchQuery] = useState("");
+  console.log(seacrchQuery);
+  
+
 
   async function fetchProducts() {
     setLoading(true);
@@ -18,16 +23,26 @@ export default function Shop() {
   useEffect(() => {
     fetchProducts();
   }, []);
-  console.log(products);
+  // console.log(products);
+
+    // Filter products based on search query
+const filteredProduct = products.filter((product) =>
+  product.title.toLowerCase().includes(seacrchQuery.toLowerCase())
+);
+
+
+  
   return (
     <>
       <div className="p-6 max-w-6xl mx-auto">
         {/* Search */}
         <div className="mb-4">
           <input
+            value={seacrchQuery}
             type="text"
             placeholder="Search products..."
             className="w-full border p-2 rounded-lg"
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -53,7 +68,7 @@ export default function Shop() {
         {
           loading ? <Loading /> :   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
          {
-          products.map ((product) => <Card key={product.id} productInfo={product} /> )
+          filteredProduct.map ((product) => <Card key={product.id} productInfo={product} /> )
          }
         </div>
         }

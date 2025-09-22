@@ -33,8 +33,8 @@ export default function ShopSlider() {
         modules={[Autoplay, EffectCreative, Navigation]}
       spaceBetween={0}
       slidesPerView={1}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
+      // onSlideChange={() => console.log('slide change')}
+      // onSwiper={(swiper) => console.log(swiper)}
     >
       <SwiperSlide>
         <img className='w-[80%] mx-auto' src={Slider1} alt="" />

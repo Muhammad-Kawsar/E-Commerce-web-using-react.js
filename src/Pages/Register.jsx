@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form"
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -102,14 +101,6 @@ export default function Register() {
             {loading ? <span className="loading loading-spinner loading-sm"></span> : 'Register'}
           </button>
 
-          {/* Google Sign Up Button */}
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-2 border border-gray-300 py-2 rounded-lg font-medium hover:bg-gray-100 transition"
-          >
-            <FcGoogle className="text-xl" />
-            Sign up with Google
-          </button>
 
           <p className="text-center text-sm mt-3">
             Already have an account?{" "}

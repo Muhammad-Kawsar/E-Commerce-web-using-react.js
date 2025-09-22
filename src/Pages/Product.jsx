@@ -1,12 +1,19 @@
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { use, useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../Components/Loading";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/CartContext";
 export default function Product() {
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const useNavigation = useNavigate();
+  const checkUser = localStorage.getItem("userFromGoggle") 
+  const {addToCart}=useContext(CartContext)
+  // console.log(checkUser);
+  
   async function fetchsingleProduct() {
     setLoading(true);
     const response = await axios.get(
@@ -18,6 +25,17 @@ export default function Product() {
   useEffect(() => {
     fetchsingleProduct();
   }, []);
+
+  function handleCart (product){
+    if (checkUser){
+      addToCart(product)
+      toast.success ("Product Added to the Cart")
+    }
+    else {
+      useNavigation("/login")
+      toast.error("Please login first")
+    }
+  }
   return (
     <>
       {loading && <Loading />}
@@ -56,7 +74,7 @@ export default function Product() {
                 ${singleProduct?.price}
               </p>
             </div>
-            <button className="bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2 rounded-lg font-medium shadow-md hover:scale-105 transition-transform">
+            <button onClick={()=>handleCart(singleProduct)} className="bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2 rounded-lg font-medium shadow-md hover:scale-105 transition-transform">
               Add to Cart
             </button>
           </div>

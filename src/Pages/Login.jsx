@@ -53,7 +53,6 @@ signInWithPopup(auth, provider)
     reset();
     navigation("/shop");
     toast.success("Login Successful");
-    
    } catch (error) {
     console.log(error);
     

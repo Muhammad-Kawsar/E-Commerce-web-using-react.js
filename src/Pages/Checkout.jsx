@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import axios from "axios";
 
 export default function CheckoutTable() {
   const {cart} =useContext(CartContext)
+  const googleUserInfo = JSON.parse(localStorage.getItem("userFromGoggle"));
   
   function calculateSubtotal (){
     let subtotal = 0;
@@ -11,6 +13,45 @@ export default function CheckoutTable() {
     });
     return subtotal.toFixed(2)
   }
+
+  async function PayNow() {
+    let userPayableAmount = calculateSubtotal()
+
+    let aamarPayJSON = {
+    "store_id": "aamarpaytest",
+    "tran_id": "asdasdasdasdasd",
+    "success_url": "http://www.merchantdomain.com/suc esspage.html",
+    "fail_url": "http://www.merchantdomain.com/faile dpage.html",
+    "cancel_url": "http://www.merchantdomain.com/can cellpage.html",
+    "amount": "userPayableAmount",
+    "currency": "BDT",
+    "signature_key": "dbb74894e82415a2f7ff0ec3a97e4183",
+    "desc": "Merchant Registration Payment",
+    "cus_name": "googleUserInfo.name",
+    "cus_email": "googleUserInfo.email",
+    "cus_add1": "House B-158 Road 22",
+    "cus_add2": "Mohakhali DOHS",
+    "cus_city": "Dhaka",
+    "cus_state": "Dhaka",
+    "cus_postcode": "1206",
+    "cus_country": "Bangladesh",
+    "cus_phone": "+8801704",
+    "type": "json"
+}
+
+      try {
+     const response = await axios.post(
+      "https://sandbox.aamarpay.com/jsonpost.php", aamarPayJSON);
+    const userInfomation = response.data;
+    console.log(userInfomation);
+    
+   } catch (error) {
+    console.log(error);
+    
+   }
+    
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-200 via-purple-200 to-blue-200 p-6 flex justify-center">
@@ -60,6 +101,7 @@ export default function CheckoutTable() {
         </table>
         <div className="text-right">
           <h2 className="text-2xl font-bold">Subtotal: {calculateSubtotal()} Taka</h2>
+        <button onClick={PayNow} className="btn btn-success my-4">Pay Now</button>
         </div>
       </div>
     </div>
